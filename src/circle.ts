@@ -1,21 +1,29 @@
-import * as PIXI from "pixi.js";
+import { app, rgbColor } from "./app";
 import { Graphics } from "pixi.js";
 
 export class TCircle {
-    app: PIXI.Application;
-    color: number;
+    color: number
+    posX: number
+    posY: number
+    size: number
 
-    constructor(app: PIXI.Application, color: number) {
-        this.app = app;
-        this.color = color;
+    constructor({ 
+        color = rgbColor([1, 1, 1]), 
+        posX = 0, 
+        posY = 0, 
+        size = 10, 
+    }) {
+        this.color = color
+        this.posX = posX,
+        this.posY = posY,
+        this.size = size
     }
 
-    render() {
+    render(): void {
         const circle = new Graphics();
         circle.beginFill(this.color)
-        .drawCircle(240, 80, 40)
-        .endFill();
-        this.app.stage.addChild(circle);
-
+            .drawCircle(this.posX, this.posY, this.size,)
+            .endFill();
+        app.stage.addChild(circle);
     }
 }

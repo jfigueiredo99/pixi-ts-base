@@ -42,31 +42,77 @@ export class TileGrid {
             size: tileSize,
         }).render(firstTileName);
         
-        for(let i = 0; i < 1; i++) {
+        for(let i = 0; i < this.tilePerRow; i++) {
             for(let j = 0; j < this.tilePerRow; j++) {
                 if (i == 0 && j == 0) continue;
                 
-                const prevPiece = grid.at(-1);
-                console.log(prevPiece);
-                const rightValue = this.entropy.get(prevPiece)[1];
-                console.log(rightValue);
-                const possiblePieces = [];
-                
-                this.entropy
-                    .forEach((value: number[], key: string) => {
-                        if (value[3] == rightValue) possiblePieces.push(key);
-                    });
-                
-                const keysArr = Array.from(possiblePieces);
-                const tileName = keysArr[this.generateRandomNumber(0, keysArr.length - 1)];
+                if (i == 0) {
+                    const prevPiece = grid.at(-1);
+                    const rightValue = this.entropy.get(prevPiece)[1];
+                    const possiblePieces = [];
 
-                grid.push(tileName);
-                
-                await new Tile({
-                    posX: tileSize * j,
-                    posY: tileSize * i,
-                    size: tileSize,
-                }).render(tileName);
+                    this.entropy
+                        .forEach((value: number[], key: string) => {
+                            if (value[3] == rightValue) possiblePieces.push(key);
+                        });
+
+                    const keysArr = Array.from(possiblePieces);
+                    const tileName = keysArr[this.generateRandomNumber(0, keysArr.length - 1)];
+
+                    grid.push(tileName);
+
+                    await new Tile({
+                        posX: tileSize * j,
+                        posY: tileSize * i,
+                        size: tileSize,
+                    }).render(tileName);
+                }  else if (j == 0) {
+                    const prevPiece = grid.at(-this.tilePerRow);
+                    const downValue = this.entropy.get(prevPiece)[2];
+ 
+                    const possiblePieces = [];
+
+                    this.entropy
+                        .forEach((value: number[], key: string) => {
+                            if (value[0] == downValue) possiblePieces.push(key);
+                        });
+
+                    const keysArr = Array.from(possiblePieces);
+                    const tileName = keysArr[this.generateRandomNumber(0, keysArr.length - 1)];
+
+                    grid.push(tileName);
+
+                    await new Tile({
+                        posX: tileSize * j,
+                        posY: tileSize * i,
+                        size: tileSize,
+                    }).render(tileName);
+                } else {
+                    const prevPieceHorizontal = grid.at(-1);
+                    const rightValue = this.entropy.get(prevPieceHorizontal)[1];
+
+                    const prevPieceVertical = grid.at(-this.tilePerRow);
+                    const downValue = this.entropy.get(prevPieceVertical)[2];
+
+                    console.log('(i: ' + i + ', j:' + j + ')' + 'prev hor: ' + prevPieceHorizontal + ' | prev ver: ' + prevPieceVertical);
+                    const possiblePieces = [];
+
+                    this.entropy
+                        .forEach((value: number[], key: string) => {
+                            if (value[0] == downValue && value[3] == rightValue) possiblePieces.push(key);
+                        });
+
+                    const keysArr = Array.from(possiblePieces);
+                    const tileName = keysArr[this.generateRandomNumber(0, keysArr.length - 1)];
+
+                    grid.push(tileName);
+
+                    await new Tile({
+                        posX: tileSize * j,
+                        posY: tileSize * i,
+                        size: tileSize,
+                    }).render(tileName);
+                }
             }   
         }
     }

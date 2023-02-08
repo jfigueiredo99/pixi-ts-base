@@ -12,14 +12,24 @@ export class TileGrid {
 
     async render() {
         let tileSize = app.view.width / this.tilePerRow;
+        var tiles = [];
         for(let i = 0; i < this.tilePerRow;i++){
             for(let j = 0; j < this.tilePerRow;j++){
-                new Tile({
+                let tile = new Tile({
                     posX: tileSize * j,
                     posY: tileSize * i,
                     size: tileSize,
-                }).render();
+                });
+                tiles.concat(tile);
+                this.refreshEntropy(tiles);
+               await tile.render();
             }   
+        }
+    }
+
+    private refreshEntropy(tiles: Tile[]) {
+        for(let i = 0; i < tiles.length;i++) {
+            tiles[i].entropy
         }
     }
 }

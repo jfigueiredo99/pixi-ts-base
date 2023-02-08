@@ -4,7 +4,7 @@ export class Tile {
     posX: number
     posY: number
     size: number
-
+        
     constructor({ 
         posX = 0, 
         posY = 0, 
@@ -15,10 +15,10 @@ export class Tile {
         this.size = size
     }
 
-    async render() {
+    async render(tileName: string) {
         let sprite;
         try {
-            const texture = await app.loader.resources["path"].texture;
+            const texture = await app.loader.resources[tileName].texture;
             sprite = new PIXI.Sprite(texture);
         } catch (err) {
             console.log(`FAILED loading texture`);

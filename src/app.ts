@@ -21,9 +21,9 @@ app.loader.add("left", "left.png");
 app.loader.add("right", "right.png");
 app.loader.add("up_down", "up_down.png");
 app.loader.add("up", "up.png");
-app.loader.add("tile", "tile.png");
-app.loader.add("dirt", "dirt.png");
-app.loader.add("path", "path.png");
+// app.loader.add("tile", "tile.png");
+// app.loader.add("dirt", "dirt.png");
+// app.loader.add("path", "path.png");
 
 
 export { app, PIXI, rgbColor }
